@@ -1,3 +1,9 @@
+// ----- C#
+using System.Collections;
+
+// ----- Unity
+using UnityEngine;
+
 namespace Utility.SimpleFSM
 {
     public abstract class SimpleState<EStateType>
@@ -6,6 +12,7 @@ namespace Utility.SimpleFSM
         // Variables
         // --------------------------------------------------
         private System.Action<EStateType, object> _changeStateCallBack = null;
+        private MonoBehaviour                     _coroutineExecutor   = null;
 
         // --------------------------------------------------
         // Properties
@@ -15,18 +22,22 @@ namespace Utility.SimpleFSM
         // --------------------------------------------------
         // Functions - Public Using
         // --------------------------------------------------
-        public void Init(System.Action<EStateType, object> changeStateCallBack, object initParam = null)
+        public void Init(System.Action<EStateType, object> changeStateCallBack,
+                         MonoBehaviour                     coroutineExecutor,
+                         object                            initParam = null)
         {
             Release();
 
             _changeStateCallBack = changeStateCallBack;
-
+            _coroutineExecutor   = coroutineExecutor;
+            
             _Init(initParam);
         }
 
         public void Release()
         {
             _changeStateCallBack = null;
+            _coroutineExecutor   = null;
 
             _Release();
         }
@@ -45,11 +56,33 @@ namespace Utility.SimpleFSM
         protected virtual void _Update ()                                          { }
 
         // --------------------------------------------------
-        // Functions
+        // Functions - State
         // --------------------------------------------------
-        protected void ChangeState(EStateType nextStateType, object param = null)
+        protected void ChangeState(EStateType nextStateType, object param = null) 
         {
             _changeStateCallBack?.Invoke(nextStateType, param);
+        }
+
+        // --------------------------------------------------
+        // Functions - Coroutine
+        // --------------------------------------------------
+        protected Coroutine StartCoroutine(IEnumerator enumerator)
+        {
+            if (null == _coroutineExecutor)
+            {
+                Debug.LogError($"[SimpleState.StartCoroutine] 코루틴 실행자가 존재하지 않습니다.");
+                return null;
+            }
+
+            return _coroutineExecutor.StartCoroutine(enumerator);
+        }
+
+        protected void StopCoroutine(Coroutine coroutine)
+        {
+            if (null == coroutine || null == _coroutineExecutor)
+                return;
+
+            _coroutineExecutor.StopCoroutine(coroutine);
         }
     }
 }
