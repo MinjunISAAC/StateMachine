@@ -19,8 +19,8 @@ namespace InGame.ForUnit.UI
         [SerializeField] private RectTransform _stickRect = null;    // Joy Pad 중앙 스틱 
 
         [Space(1f)] [Header("Origin Value Collection")]
-        [SerializeField] private float _originMoveValue   = 0.125f;  // 기본 속도 값 
-        [SerializeField] private float _originRotateValue = 1f;      // 기본 속도 값 
+        [SerializeField] private float _moveSpeed   = 10f;
+        [SerializeField] private float _rotateSpeed = 0.5f;
 
         // --------------------------------------------------
         // Variables
@@ -37,8 +37,6 @@ namespace InGame.ForUnit.UI
         private Quaternion _rotateQuat = default;
         
         private float _joyStickRadius = 0.0f;
-        [SerializeField] private float _moveSpeed      = 10f;
-        [SerializeField] private float _rotateSpeed    = 0.5f;
         private float _moveFactor     = 1f;
         
         private bool _isDragging = false;
