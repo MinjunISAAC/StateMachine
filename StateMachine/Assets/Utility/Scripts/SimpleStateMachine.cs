@@ -51,6 +51,16 @@ public class SimpleStateMachine<EStateType>
 
         _stateSet          = stateSet;
         _coroutineExecutor = coroutineExecutor;
+
+        foreach (var targetState in _stateSet)
+        {
+            var state = targetState.Value;
+            
+            if (state == null)
+                continue;
+
+            state.Init(ChangeState, _coroutineExecutor, param);
+        }
     }
 
     public virtual void OnUpdate()
@@ -62,5 +72,54 @@ public class SimpleStateMachine<EStateType>
     {
         _currentState      = null;
         _coroutineExecutor = null;
+
+        if (_stateSet != null)
+        {
+            foreach (var statePair in _stateSet)
+            {
+                var state = statePair.Value;
+                if (state == null)
+                    continue;
+
+                state.Release();
+            }
+
+            _stateSet.Clear();
+        }
+    }
+
+    public virtual void ChangeState(EStateType targetStateType, object startParam)
+    {
+        if (null == _stateSet)
+        {
+            Debug.LogError("[SimpleStateMachine.ChangeState] State Set이 존재하지 않습니다.");
+            return;
+        }
+
+        if (!_stateSet.TryGetValue(targetStateType, out var state))
+        {
+            Debug.LogError($"[SimpleStateMachine.ChangeState] state Set에 {nameof(targetStateType)}가 존재하지 않습니다.");
+            return;
+        }
+
+        if (null == state)
+        {
+            Debug.LogError($"[SimpleStateMachine.ChangeState] Target State인 SimpleState[{nameof(targetStateType)}]가 존재하지 않습니다.");
+            return;
+        }
+
+        var prevSimpleState = _currentState;
+        if (null != prevSimpleState)
+        {
+            _currentState.Finish(targetStateType);
+
+            _currentState = state;
+            _currentState.Start(prevSimpleState.State, startParam);
+        }
+        else
+        {
+            _currentState = state;
+            _currentState.Start(default(EStateType), startParam);
+        }
     }
 }
