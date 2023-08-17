@@ -9,6 +9,17 @@ namespace InGame.ForUnit.UI
     public class JoyPadView : MonoBehaviour
     {
         // --------------------------------------------------
+        // User Touch State Enum
+        // --------------------------------------------------
+        public enum ETouchState 
+        { 
+            Unknown = 0,
+            Down    = 1,
+            Up      = 2,
+            Stay    = 3,
+        }
+
+        // --------------------------------------------------
         // Components
         // --------------------------------------------------
         [Header("Activate Collection")]
@@ -27,6 +38,8 @@ namespace InGame.ForUnit.UI
         // --------------------------------------------------
         // ----- Private
         private Unit _targetUnit = null;
+
+        private ETouchState _touchState = ETouchState.Unknown;
         
         private Vector2 _stickVec     = Vector2.zero;
         private Vector2 _nomalVec     = Vector2.zero;
@@ -44,6 +57,11 @@ namespace InGame.ForUnit.UI
         // --------------------------------------------------
         // Properties
         // --------------------------------------------------
+        public ETouchState TouchState 
+        {
+            get { return _touchState; }
+        }
+
         public float MoveSpeed
         {
             get { return _moveSpeed; }
@@ -53,6 +71,7 @@ namespace InGame.ForUnit.UI
         {
             get { return _frameRect; }
         }
+
 
         // --------------------------------------------------
         // JoyStick Factor Event
@@ -74,6 +93,7 @@ namespace InGame.ForUnit.UI
                 if (null == _targetUnit) return;
                 if (!_isActived)         return;
 
+                _touchState         = ETouchState.Down;
                 _isDragging         = true;
                 _frameRect.position = Input.mousePosition;
                 
@@ -85,6 +105,8 @@ namespace InGame.ForUnit.UI
                 if (null == _targetUnit) return;
                 if (!_isActived)         return;
 
+                _touchState = ETouchState.Stay;
+
                 _frameRect.gameObject.SetActive(true);
 
                 _OnTouch(Input.mousePosition);
@@ -95,7 +117,8 @@ namespace InGame.ForUnit.UI
                 if (null == _targetUnit) return;
                 if (!_isActived)         return;
 
-                _isDragging                        = false;
+                _touchState = ETouchState.Up;
+                _isDragging = false;
                 _targetUnit.UnitRigidBody.velocity = Vector3.zero;
 
                 _frameRect.gameObject.SetActive(false);

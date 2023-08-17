@@ -1,4 +1,5 @@
 // ----- C#
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -33,42 +34,62 @@ namespace InGame.ForUnit
         // Variables
         // --------------------------------------------------
         // ----- Private
-        private EUnitState _unitState = EUnitState.Unknown;
+        private EUnitState _unitState       = EUnitState.Unknown;
 
-        private Coroutine _co_CurrntState = null;
+        private Coroutine  _co_CurrentState = null;
 
         // --------------------------------------------------
         // Properties
         // --------------------------------------------------
         public Rigidbody UnitRigidBody { get => _rigidBody; }
+        public EUnitState UnitState { get => _unitState; }
 
         // --------------------------------------------------
         // Functions - Nomal
         // --------------------------------------------------
         // ----- Public
-        public void OnInit() { }
-
-
-        // ----- Private
-        private void _ChangeToUnitState() 
+        public void OnInit() 
         { 
         
         }
 
+        // ----- Private
+
         // ---- State 
+        private void _ChangeToUnitState(EUnitState unitState, float duration = 0.0f, Action doneCallBack = null)
+        {
+            if (!Enum.IsDefined(typeof(EUnitState), unitState))
+            {
+                Debug.LogError($"[Unit._ChangeToUnitState] {Enum.GetName(typeof(EUnitState), unitState)}은 정의되어있지 않은 Enum 값입니다.");
+                return;
+            }
+
+            _unitState = unitState;
+
+            if (_co_CurrentState != null)
+                StopCoroutine(_co_CurrentState);
+
+            switch (_unitState)
+            {
+                case EUnitState.Idle_Empty: _State_IdleEmpty(); break;
+                case EUnitState.Walk_Empty: _State_WalkEmpty(); break;
+                case EUnitState.Run_Empty:  _State_RunEmpty();  break;
+            }
+        }
+
         private void _State_IdleEmpty()
         {
-
+            _co_CurrentState = StartCoroutine(_Co_IdleEmpty());
         }
 
         private void _State_WalkEmpty() 
-        { 
-            
+        {
+            _co_CurrentState = StartCoroutine(_Co_WalkEmpty());
         }
         
         private void _State_RunEmpty() 
-        { 
-        
+        {
+            _co_CurrentState = StartCoroutine(_Co_RunEmpty());
         }
 
         // --------------------------------------------------
@@ -84,11 +105,17 @@ namespace InGame.ForUnit
 
         private IEnumerator _Co_WalkEmpty()
         {
-            while (_unitState == EUnitState.Idle_Empty)
+            while (_unitState == EUnitState.Walk_Empty)
             {
                 yield return null;
             }
         }
-        private IEnumerator _Co_RunEmpty() { yield return null; }
+        private IEnumerator _Co_RunEmpty()
+        {
+            while (_unitState == EUnitState.Run_Empty)
+            {
+                yield return null;
+            }
+        }
     }
 }
