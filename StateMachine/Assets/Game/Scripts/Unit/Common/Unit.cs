@@ -53,7 +53,7 @@ namespace InGame.ForUnit
         
         }
 
-        // ----- Private
+        public void ChangeToUnitState(EUnitState unitState, float duration = 0.0f, Action doneCallBack = null) => _ChangeToUnitState(unitState, duration, doneCallBack);
 
         // ---- State 
         private void _ChangeToUnitState(EUnitState unitState, float duration = 0.0f, Action doneCallBack = null)
@@ -63,6 +63,9 @@ namespace InGame.ForUnit
                 Debug.LogError($"[Unit._ChangeToUnitState] {Enum.GetName(typeof(EUnitState), unitState)}은 정의되어있지 않은 Enum 값입니다.");
                 return;
             }
+
+            if (_unitState == unitState)
+                return;
 
             _unitState = unitState;
 
@@ -97,6 +100,8 @@ namespace InGame.ForUnit
         // --------------------------------------------------
         private IEnumerator _Co_IdleEmpty() 
         {
+            _anim.SetTrigger($"Empty_Idle");
+
             while (_unitState == EUnitState.Idle_Empty)
             {
                 yield return null;
@@ -105,6 +110,8 @@ namespace InGame.ForUnit
 
         private IEnumerator _Co_WalkEmpty()
         {
+            _anim.SetTrigger($"Empty_Walk");
+
             while (_unitState == EUnitState.Walk_Empty)
             {
                 yield return null;
@@ -112,6 +119,7 @@ namespace InGame.ForUnit
         }
         private IEnumerator _Co_RunEmpty()
         {
+            _anim.SetTrigger($"Empty_Run");
             while (_unitState == EUnitState.Run_Empty)
             {
                 yield return null;

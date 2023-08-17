@@ -25,6 +25,7 @@ namespace InGame.Main
         private void Start()
         {
             _camController.OnInit(_unitController.TargetUnit);
+            _unitController.OnInit();
         }
     }
 }

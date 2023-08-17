@@ -1,4 +1,5 @@
 // ----- C#
+using System;
 using System.Collections.Generic;
 
 // ----- Unity
@@ -6,6 +7,7 @@ using UnityEngine;
 
 // ----- User Defined
 using InGame.ForUnit.UI;
+using InGame.ForUI;
 
 namespace InGame.ForUnit.Manage 
 {
@@ -14,43 +16,38 @@ namespace InGame.ForUnit.Manage
         // --------------------------------------------------
         // Components
         // --------------------------------------------------
-        [Header("JoyPad")]
-        [SerializeField] private JoyPadView _joyPadView = null;
+        [Header("Joy Pad")]
+        [SerializeField] private JoyPad _joyPad     = null;
 
-        [Space(1.5f)]
-        [Header("Unit Collection")]
-        [SerializeField] private Unit _targetUnit = null;
+        [Space(1.5f)] [Header("Unit")] 
+        [SerializeField] private Unit   _targetUnit = null;
 
-        // --------------------------------------------------
-        // Variables
-        // --------------------------------------------------
-        
+        [Space(1.5f)] [Header("UI")]
+        [SerializeField] private MainUI _mainUI     = null;
+
         // --------------------------------------------------
         // Properties
         // --------------------------------------------------
-        public Unit TargetUnit
-        { 
-            get { return _targetUnit; }
-        }
-
-        // --------------------------------------------------
-        // Functions - Event
-        // --------------------------------------------------
-        public void Start()
-        {
-            UsedJoyPad(true);
-            _SetJoyPad();
-        }
+        public Unit TargetUnit => _targetUnit;
 
         // --------------------------------------------------
         // Functions - Nomal
         // --------------------------------------------------
         // ----- Public
+        public void OnInit() 
+        {
+            // Unit Chain Event µî·Ï
+            _joyPad.OnCheckJoyPadState += 
+                (state) => { _ChangeUnitState(state); };
+
+            _SetJoyPad();
+        }
+        
         public void UsedJoyPad(bool isOn)
         {
-            _joyPadView.UsedJoyStickEvent(isOn);
+            _joyPad.UsedJoyStickEvent(isOn);
 
-            if (!isOn) _joyPadView.FrameRect.gameObject.SetActive(isOn);
+            if (!isOn) _joyPad.FrameRect.gameObject.SetActive(isOn);
         }
 
         // ----- Private
@@ -62,7 +59,31 @@ namespace InGame.ForUnit.Manage
                 return;
             }
 
-            _joyPadView.SetToTargetUnit(_targetUnit);
+            _joyPad.SetToTargetUnit(_targetUnit);
+        }
+
+        private void _ChangeUnitState(JoyPad.ETouchState joyPadState) 
+        {
+            switch (joyPadState) 
+            {
+                case JoyPad.ETouchState.Down:
+                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Walk_Empty);
+                    break;
+
+                case JoyPad.ETouchState.Walk_Stay:
+                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Walk_Empty);
+                    break;
+
+                case JoyPad.ETouchState.Run_Stay:
+                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Run_Empty);
+                    break;
+
+                case JoyPad.ETouchState.Up:
+                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Idle_Empty);
+                    break;
+            }
+
+            _mainUI.ChangeStateTmp(_targetUnit.UnitState);
         }
     }
 }

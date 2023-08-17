@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidBody: {fileID: 3144274041927374503}
+  _anim: {fileID: 334293667045050497}
 --- !u!136 &8720406517026861723
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -135,6 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed5028555a9472a44a792c536732e176, type: 3}
+--- !u!95 &334293667045050497 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1890458803646072116, guid: ed5028555a9472a44a792c536732e176, type: 3}
+  m_PrefabInstance: {fileID: 2206733124085714357}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5927733839183991547 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5538423208805949262, guid: ed5028555a9472a44a792c536732e176, type: 3}

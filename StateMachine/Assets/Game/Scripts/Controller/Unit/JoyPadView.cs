@@ -72,7 +72,6 @@ namespace InGame.ForUnit.UI
             get { return _frameRect; }
         }
 
-
         // --------------------------------------------------
         // JoyStick Factor Event
         // --------------------------------------------------
@@ -82,6 +81,7 @@ namespace InGame.ForUnit.UI
             if (OnUsedJoyStickEvent != null)
                 OnUsedJoyStickEvent(isUsed);
         }
+
 
         // --------------------------------------------------
         // Function - Event
