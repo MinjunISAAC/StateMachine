@@ -20,6 +20,11 @@ namespace InGame.ForUI.Control
         [SerializeField] private TapPad  _tapPad  = null;
 
         // --------------------------------------------------
+        // Properties
+        // --------------------------------------------------
+        public MovePad MovePad => _movePad;
+
+        // --------------------------------------------------
         // Functions - Nomal
         // --------------------------------------------------
         public void VisiableControlPad(bool isShow)

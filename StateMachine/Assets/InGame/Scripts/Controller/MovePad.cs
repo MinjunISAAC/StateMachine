@@ -12,7 +12,7 @@ namespace InGame.ForUnit.Control
         // --------------------------------------------------
         // State Enum
         // --------------------------------------------------
-        public enum EMoveState
+        public enum EMoveType
         {
             Unknown = 0,
             Idle    = 1,
@@ -44,7 +44,7 @@ namespace InGame.ForUnit.Control
         private const float MOVEFACTOR_RUN  = 2f;
 
         // ----- Private
-        private EMoveState  _moveState      = EMoveState.Unknown;
+        private EMoveType  _moveState      = EMoveType.Unknown;
 
         private Unit        _targetUnit     = null;
 
@@ -64,15 +64,7 @@ namespace InGame.ForUnit.Control
         // --------------------------------------------------
         // Properties
         // --------------------------------------------------
-        public float MoveSpeed
-        {
-            get { return _moveSpeed; }
-        }
-
-        public RectTransform FrameRect
-        {
-            get { return _RECT_Frame; }
-        }
+        public EMoveType MoveState => _moveState;
 
         // --------------------------------------------------
         // JoyStick Factor Event
@@ -84,12 +76,18 @@ namespace InGame.ForUnit.Control
                 OnUsedJoyStickEvent(isUsed);
         }
 
+        public event Action<EMoveType> OnChangeMoveStateEvent;
+        public void ChangeMoveStateEvent(EMoveType moveType)
+        {
+            if (OnChangeMoveStateEvent != null)
+                OnChangeMoveStateEvent(moveType);
+        }
+
         // --------------------------------------------------
         // Functions - Event
         // --------------------------------------------------
         private void Update()
         {
-            Debug.Log($"Move State {_moveState}");
             if (_isActive == false)  return;
             if (null == _targetUnit) return;
             
@@ -99,8 +97,6 @@ namespace InGame.ForUnit.Control
             {
                 _targetUnit.UnitRigidBody.velocity = Vector3.zero;
                 _RECT_Stick.localPosition          = Vector2.zero;
-                _moveState                         = EMoveState.Idle;
-
             }
         }
 
@@ -119,6 +115,9 @@ namespace InGame.ForUnit.Control
                 return;
 
             _isTouchDown = false;
+            _moveState = EMoveType.Idle;
+            
+            ChangeMoveStateEvent(_moveState);
         }
 
         // --------------------------------------------------
@@ -167,14 +166,16 @@ namespace InGame.ForUnit.Control
             if (_RECT_Stick.localPosition.magnitude < WALK_AERA &&
                 _RECT_Stick.localPosition.magnitude > Mathf.Epsilon)
             {
-                _moveState  = EMoveState.Walk;
+                _moveState  = EMoveType.Walk;
                 _moveFactor = MOVEFACTOR_WALK;
             }
             else
             {
-                _moveState  = EMoveState.Run;
+                _moveState  = EMoveType.Run;
                 _moveFactor = MOVEFACTOR_RUN;
             }
+            
+            ChangeMoveStateEvent(_moveState);
         }
     }
 }

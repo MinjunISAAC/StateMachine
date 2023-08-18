@@ -29,12 +29,17 @@ namespace InGame.ForUnit.Manage
         public Unit TargetUnit => _targetUnit;
 
         // --------------------------------------------------
+        // Functions - Event
+        // --------------------------------------------------
+
+        // --------------------------------------------------
         // Functions - Nomal
         // --------------------------------------------------
         // ----- Public
         public void OnInit() 
         {
             _SetJoyPad();
+            _controlView.MovePad.OnChangeMoveStateEvent += (moveType) => { _ChangeUnitState(moveType); };
         }
         
         public void UsedJoyPad(bool isOn)
@@ -53,6 +58,24 @@ namespace InGame.ForUnit.Manage
             }
 
             _controlView.SetToTargetUnit(_targetUnit);
+        }
+
+        private void _ChangeUnitState(MovePad.EMoveType moveType)
+        {
+            switch (moveType)
+            {
+                case MovePad.EMoveType.Idle:
+                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Idle_Empty);
+                    break;
+                    
+                case MovePad.EMoveType.Walk:
+                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Walk_Empty);
+                    break;
+
+                case MovePad.EMoveType.Run:
+                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Run_Empty);
+                    break;
+            }
         }
     }
 }
