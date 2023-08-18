@@ -1,11 +1,11 @@
 // ----- C#
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 // ----- Unity
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace InGame.ForUnit.Control 
 {
@@ -44,6 +44,29 @@ namespace InGame.ForUnit.Control
 
         private float      _joyStickRadius = 0.0f;
         private float      _moveFactor     = 1f;
+
+        // --------------------------------------------------
+        // Properties
+        // --------------------------------------------------
+        public float MoveSpeed
+        {
+            get { return _moveSpeed; }
+        }
+
+        public RectTransform FrameRect
+        {
+            get { return _RECT_Frame; }
+        }
+
+        // --------------------------------------------------
+        // JoyStick Factor Event
+        // --------------------------------------------------
+        public event Action<bool> OnUsedJoyStickEvent;
+        public void UsedJoyStickEvent(bool isUsed)
+        {
+            if (OnUsedJoyStickEvent != null)
+                OnUsedJoyStickEvent(isUsed);
+        }
 
         // --------------------------------------------------
         // Functions - Event

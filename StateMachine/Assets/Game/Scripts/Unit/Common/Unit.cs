@@ -15,10 +15,10 @@ namespace InGame.ForUnit
         // --------------------------------------------------
         public enum EUnitState
         {
-            Unknown = 0,
+            Unknown    = 0,
             Idle_Empty = 1,
             Walk_Empty = 2,
-            Run_Empty = 3,
+            Run_Empty  = 3,
         }
 
         // --------------------------------------------------
@@ -28,7 +28,7 @@ namespace InGame.ForUnit
         [SerializeField] private Rigidbody _rigidBody = null;
 
         [Space(1.5f)][Header("Animate Collection")]
-        [SerializeField] private Animator _anim = null;
+        [SerializeField] private Animator  _anim      = null;
 
         // --------------------------------------------------
         // Variables
@@ -41,8 +41,8 @@ namespace InGame.ForUnit
         // --------------------------------------------------
         // Properties
         // --------------------------------------------------
-        public Rigidbody UnitRigidBody { get => _rigidBody; }
-        public EUnitState UnitState { get => _unitState; }
+        public Rigidbody  UnitRigidBody { get => _rigidBody; }
+        public EUnitState UnitState     { get => _unitState; }
 
         // --------------------------------------------------
         // Functions - Nomal

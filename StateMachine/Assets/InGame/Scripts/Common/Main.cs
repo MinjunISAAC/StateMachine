@@ -6,25 +6,56 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // ----- User Defined
-using InGame.ForUnit;
-using InGame.ForUnit.Control;
+using InGame.ForUnit.Manage;
+using InGame.ForCam;
+using InGame.ForUI;
+using InGame.ForState;
 
-namespace InGame.Main 
+namespace InGame.ForMain 
 { 
     public class Main : MonoBehaviour
     {
         // --------------------------------------------------
         // Components
         // --------------------------------------------------
-        [SerializeField] private Unit _unit = null;
-        [SerializeField] private JoyPad  _joyPad  = null;
+        [Header("Manage Group")]
+        [SerializeField] private UnitController _unitController = null;
+        [SerializeField] private CamController  _camController  = null;
+
+        [Space(1.5f)] [Header("UI Group")]
+        [SerializeField] private MainUI         _mainUI         = null;
+
+        // --------------------------------------------------
+        // Property
+        // --------------------------------------------------
+        public static Main NullableInstance
+        {
+            get;
+            private set;
+        } = null;
+
+        public UnitController UnitController => _unitController;
+        public CamController  CamController  => _camController;   
+        public MainUI         MainUI         => _mainUI;
 
         // --------------------------------------------------
         // Functions - Event
         // --------------------------------------------------
-        private void Start()
+        private void Awake() 
+        { 
+            NullableInstance = this; 
+        }
+
+        private IEnumerator Start()
         {
-            _joyPad.SetToTargetUnit(_unit);
+            // UI 초기화
+            _mainUI.OnInit();
+
+            // State 초기화 진행 (Ready)
+            StateMachine.Instance.ChangeState(Utility.SimpleFSM.EStateType.Ready, null);
+
+            yield return null;
+
         }
     }
 }

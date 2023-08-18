@@ -26,7 +26,7 @@ namespace InGame.ForCam
         // Components
         // --------------------------------------------------
         [Header("Target Camera")]
-        [SerializeField] private Camera _targetCam = null;
+        [SerializeField] private Camera  _targetCam      = null;
 
         [Space(1.5f)] [Header("Transform Offset Collection")]
         [SerializeField] private Vector3 _positionOffset = Vector3.zero;

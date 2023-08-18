@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // ----- User Defined
-using InGame.ForUnit.UI;
 using InGame.ForUI;
-using InGame.ForJoyStick;
+using InGame.ForUnit.Control;
 
 namespace InGame.ForUnit.Manage 
 {
@@ -23,9 +22,6 @@ namespace InGame.ForUnit.Manage
         [Space(1.5f)] [Header("Unit")] 
         [SerializeField] private Unit   _targetUnit = null;
 
-        [Space(1.5f)] [Header("UI")]
-        [SerializeField] private MainUI _mainUI     = null;
-
         // --------------------------------------------------
         // Properties
         // --------------------------------------------------
@@ -37,10 +33,6 @@ namespace InGame.ForUnit.Manage
         // ----- Public
         public void OnInit() 
         {
-            // Unit Chain Event µî·Ï
-            _joyPad.OnCheckJoyPadState += 
-                (state) => { _ChangeUnitState(state); };
-
             _SetJoyPad();
         }
         
@@ -61,30 +53,6 @@ namespace InGame.ForUnit.Manage
             }
 
             _joyPad.SetToTargetUnit(_targetUnit);
-        }
-
-        private void _ChangeUnitState(JoyPad.ETouchState joyPadState) 
-        {
-            switch (joyPadState) 
-            {
-                case JoyPad.ETouchState.Down:
-                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Walk_Empty);
-                    break;
-
-                case JoyPad.ETouchState.Walk_Stay:
-                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Walk_Empty);
-                    break;
-
-                case JoyPad.ETouchState.Run_Stay:
-                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Run_Empty);
-                    break;
-
-                case JoyPad.ETouchState.Up:
-                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Idle_Empty);
-                    break;
-            }
-
-            _mainUI.ChangeStateTmp(_targetUnit.UnitState);
         }
     }
 }
