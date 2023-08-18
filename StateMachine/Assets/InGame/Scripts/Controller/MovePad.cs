@@ -10,6 +10,17 @@ namespace InGame.ForUnit.Control
     public class MovePad : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         // --------------------------------------------------
+        // State Enum
+        // --------------------------------------------------
+        public enum EMoveState
+        {
+            Unknown = 0,
+            Idle    = 1,
+            Walk    = 2,
+            Run     = 3,
+        }
+
+        // --------------------------------------------------
         // Components
         // --------------------------------------------------
         [Header("Active")]
@@ -27,21 +38,28 @@ namespace InGame.ForUnit.Control
         // --------------------------------------------------
         // Variables
         // --------------------------------------------------
+        // ----- Const
+        private const float WALK_AERA       = 95f;
+        private const float MOVEFACTOR_WALK = 1f;
+        private const float MOVEFACTOR_RUN  = 2f;
+
         // ----- Private
-        private Unit       _targetUnit     = null;
+        private EMoveState  _moveState      = EMoveState.Unknown;
 
-        private bool       _isTouchDown    = false;
+        private Unit        _targetUnit     = null;
 
-        private Vector2    _stickVec       = Vector2.zero;
-        private Vector2    _nomalVec       = Vector2.zero;
+        private bool        _isTouchDown    = false;
 
-        private Vector3    _moveForceVec   = Vector3.zero;
-        private Vector3    _rotateVec      = Vector3.zero;
+        private Vector2     _stickVec       = Vector2.zero;
+        private Vector2     _nomalVec       = Vector2.zero;
 
-        private Quaternion _rotateQuat     = default;
+        private Vector3     _moveForceVec   = Vector3.zero;
+        private Vector3     _rotateVec      = Vector3.zero;
 
-        private float      _joyStickRadius = 0.0f;
-        private float      _moveFactor     = 1f;
+        private Quaternion  _rotateQuat     = default;
+
+        private float       _joyStickRadius = 0.0f;
+        private float       _moveFactor     = 1f;
 
         // --------------------------------------------------
         // Properties
@@ -71,6 +89,7 @@ namespace InGame.ForUnit.Control
         // --------------------------------------------------
         private void Update()
         {
+            Debug.Log($"Move State {_moveState}");
             if (_isActive == false)  return;
             if (null == _targetUnit) return;
             
@@ -80,6 +99,8 @@ namespace InGame.ForUnit.Control
             {
                 _targetUnit.UnitRigidBody.velocity = Vector3.zero;
                 _RECT_Stick.localPosition          = Vector2.zero;
+                _moveState                         = EMoveState.Idle;
+
             }
         }
 
@@ -134,9 +155,26 @@ namespace InGame.ForUnit.Control
             if (null == _targetUnit)
                 return;
 
+            _ChangeMoveInfo();
+
             _rotateVec.y = Mathf.Atan2((float)_nomalVec.x, (float)_nomalVec.y) * (float)Mathf.Rad2Deg;
             _rotateQuat = Quaternion.Euler(_rotateVec);
             _targetUnit.transform.rotation = Quaternion.Lerp(_targetUnit.transform.rotation, _rotateQuat, _rotateSpeed);
+        }
+
+        private void _ChangeMoveInfo()
+        {
+            if (_RECT_Stick.localPosition.magnitude < WALK_AERA &&
+                _RECT_Stick.localPosition.magnitude > Mathf.Epsilon)
+            {
+                _moveState  = EMoveState.Walk;
+                _moveFactor = MOVEFACTOR_WALK;
+            }
+            else
+            {
+                _moveState  = EMoveState.Run;
+                _moveFactor = MOVEFACTOR_RUN;
+            }
         }
     }
 }

@@ -105,7 +105,7 @@ namespace InGame.ForCam
         }
 
         // --------------------------------------------------
-        // Functions - Coroutine
+        // Functions - State Coroutine
         // --------------------------------------------------
         private IEnumerator _Co_FollowUnit()
         {
@@ -113,8 +113,12 @@ namespace InGame.ForCam
             {
                 if (_targetUnit != null)
                 {
-                    _targetCam.transform.position = _targetUnit.transform.position + _positionOffset;
-                    _targetCam.transform.rotation = Quaternion.Euler(_rotationOffset);
+                    // [TODO] 수정 필요
+                    Vector3 newPosition = _targetUnit.transform.position - _targetUnit.transform.forward * _positionOffset.magnitude;
+                    newPosition.y = _positionOffset.y;
+
+                    _targetCam.transform.position = newPosition;
+                    _targetCam.transform.rotation = Quaternion.Euler(_targetUnit.transform.rotation.eulerAngles + _rotationOffset);
                 }
                 yield return null;
             }
