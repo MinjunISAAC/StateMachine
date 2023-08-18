@@ -29,7 +29,6 @@ namespace InGame.ForState
 
         // ----- UI
         private PlayView       _playView       = null;
-        private ControlView    _controlView    = null;
 
         // --------------------------------------------------
         // Property
@@ -71,23 +70,14 @@ namespace InGame.ForState
                 Debug.LogError($"[State_Play._Start] Play View가 Null 상태입니다.");
                 return;
             }
-
-            _controlView = _owner.MainUI.ControlView;
-            if (_controlView == null)
-            {
-                Debug.LogError($"[State_Play._Start] Control View가 Null 상태입니다.");
-                return;
-            }
             #endregion
 
             // UI 초기화
             _playView.   gameObject.SetActive(true);
-            _controlView.gameObject.SetActive(true);
-            _controlView.VisiableControlPad(true);
 
             // Unit 조작 시스템 초기화
             _unitController.OnInit();
-            _controlView.SetToTargetUnit(_unitController.TargetUnit);
+            _unitController.UsedJoyPad(true);
 
             // Cam 시스템 초기화
             _camController.OnInit(_unitController.TargetUnit);

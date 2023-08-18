@@ -29,5 +29,6 @@ namespace InGame.ForUI.Control
         }
 
         public void SetToTargetUnit(Unit targetUnit) => _movePad.SetToTargetUnit(targetUnit);
+        public void UsedJoyStickEvent(bool isOn) => _movePad.UsedJoyStickEvent(isOn);
     }
 }

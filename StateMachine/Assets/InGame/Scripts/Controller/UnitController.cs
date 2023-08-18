@@ -8,6 +8,7 @@ using UnityEngine;
 // ----- User Defined
 using InGame.ForUI;
 using InGame.ForUnit.Control;
+using InGame.ForUI.Control;
 
 namespace InGame.ForUnit.Manage 
 {
@@ -17,10 +18,10 @@ namespace InGame.ForUnit.Manage
         // Components
         // --------------------------------------------------
         [Header("Joy Pad")]
-        [SerializeField] private MovePad _joyPad     = null;
+        [SerializeField] private ControlView _controlView = null;
 
         [Space(1.5f)] [Header("Unit")] 
-        [SerializeField] private Unit   _targetUnit = null;
+        [SerializeField] private Unit        _targetUnit  = null;
 
         // --------------------------------------------------
         // Properties
@@ -38,9 +39,8 @@ namespace InGame.ForUnit.Manage
         
         public void UsedJoyPad(bool isOn)
         {
-            _joyPad.UsedJoyStickEvent(isOn);
-
-            if (!isOn) _joyPad.FrameRect.gameObject.SetActive(isOn);
+            _controlView.gameObject.SetActive(isOn);
+            _controlView.UsedJoyStickEvent(isOn);
         }
 
         // ----- Private
@@ -52,7 +52,7 @@ namespace InGame.ForUnit.Manage
                 return;
             }
 
-            _joyPad.SetToTargetUnit(_targetUnit);
+            _controlView.SetToTargetUnit(_targetUnit);
         }
     }
 }

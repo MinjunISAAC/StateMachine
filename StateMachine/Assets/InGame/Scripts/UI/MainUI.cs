@@ -19,14 +19,6 @@ namespace InGame.ForUI
         [SerializeField] private ReadyView   _readyView   = null;
         [SerializeField] private PlayView    _playView    = null;
 
-        [Space(1.5f)] [Header("Control UI Group")]
-        [SerializeField] private ControlView _controlView = null;
-
-        // --------------------------------------------------
-        // Properties
-        // --------------------------------------------------
-        public ControlView ControlView => _controlView;
-
         // --------------------------------------------------
         // Function - Nomal
         // --------------------------------------------------
@@ -44,8 +36,6 @@ namespace InGame.ForUI
 
             _readyView.  gameObject.SetActive(false);
             _playView.   gameObject.SetActive(false);
-
-            _controlView.gameObject.SetActive(false);
         }
 
         public StateView GetStateUI() 
