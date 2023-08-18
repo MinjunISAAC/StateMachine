@@ -1,7 +1,5 @@
 // ----- C#
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 // ----- Unity
 using UnityEngine;
@@ -9,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace InGame.ForUnit.Control 
 {
-    public class JoyPad : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public class MovePad : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         // --------------------------------------------------
         // Components

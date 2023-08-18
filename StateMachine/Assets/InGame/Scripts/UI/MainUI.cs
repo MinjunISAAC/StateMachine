@@ -1,9 +1,12 @@
 // ----- C#
-using System.Collections;
-using System.Collections.Generic;
+using System;
 
 // ----- Unity
 using UnityEngine;
+
+// ----- User Defined
+using InGame.ForState;
+using InGame.ForUI.Control;
 
 namespace InGame.ForUI 
 {
@@ -12,13 +15,49 @@ namespace InGame.ForUI
         // --------------------------------------------------
         // Components
         // --------------------------------------------------
+        [Header("State UI Group")]
+        [SerializeField] private ReadyView   _readyView   = null;
+        [SerializeField] private PlayView    _playView    = null;
+
+        [Space(1.5f)] [Header("Control UI Group")]
+        [SerializeField] private ControlView _controlView = null;
+
+        // --------------------------------------------------
+        // Properties
+        // --------------------------------------------------
+        public ControlView ControlView => _controlView;
 
         // --------------------------------------------------
         // Function - Nomal
         // --------------------------------------------------
+        // ----- Public 
         public void OnInit()
         {
+            _readyView.OnInit
+            (
+                () =>
+                {
+                    StateMachine.Instance.ChangeState(Utility.SimpleFSM.EStateType.Play, null);
+                    _readyView.gameObject.SetActive(false);
+                }
+            );
 
+            _readyView.  gameObject.SetActive(false);
+            _playView.   gameObject.SetActive(false);
+
+            _controlView.gameObject.SetActive(false);
+        }
+
+        public StateView GetStateUI() 
+        { 
+            var currentState = StateMachine.Instance.CurrentState;
+            switch (currentState) 
+            {
+                case Utility.SimpleFSM.EStateType.Ready: return _readyView;
+                case Utility.SimpleFSM.EStateType.Play:  return _playView;
+                case Utility.SimpleFSM.EStateType.End:   return _readyView;
+                default:                                 return null;
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ namespace InGame.ForUnit.Manage
         // Components
         // --------------------------------------------------
         [Header("Joy Pad")]
-        [SerializeField] private JoyPad _joyPad     = null;
+        [SerializeField] private MovePad _joyPad     = null;
 
         [Space(1.5f)] [Header("Unit")] 
         [SerializeField] private Unit   _targetUnit = null;
