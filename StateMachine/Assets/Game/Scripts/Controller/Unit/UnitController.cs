@@ -8,6 +8,7 @@ using UnityEngine;
 // ----- User Defined
 using InGame.ForUnit.UI;
 using InGame.ForUI;
+using InGame.ForJoyStick;
 
 namespace InGame.ForUnit.Manage 
 {

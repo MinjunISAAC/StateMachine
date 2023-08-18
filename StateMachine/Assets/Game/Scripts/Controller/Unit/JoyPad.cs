@@ -1,10 +1,11 @@
 // ----- C#
+using InGame.ForUnit;
 using System;
 
 // ----- Unity
 using UnityEngine;
 
-namespace InGame.ForUnit
+namespace InGame.ForJoyStick
 {
     public class JoyPad : MonoBehaviour
     {

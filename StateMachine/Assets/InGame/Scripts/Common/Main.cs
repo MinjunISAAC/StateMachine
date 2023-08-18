@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // ----- User Defined
-using InGame.ForUnit.Manage;
-using InGame.ForCam;
+using InGame.ForUnit;
+using InGame.ForUnit.Control;
 
 namespace InGame.Main 
 { 
@@ -16,16 +16,15 @@ namespace InGame.Main
         // --------------------------------------------------
         // Components
         // --------------------------------------------------
-        [SerializeField] private UnitController _unitController = null;
-        [SerializeField] private CamController  _camController  = null;
+        [SerializeField] private Unit _unit = null;
+        [SerializeField] private JoyPad  _joyPad  = null;
 
         // --------------------------------------------------
         // Functions - Event
         // --------------------------------------------------
         private void Start()
         {
-            _camController.OnInit(_unitController.TargetUnit);
-            _unitController.OnInit();
+            _joyPad.SetToTargetUnit(_unit);
         }
     }
 }
