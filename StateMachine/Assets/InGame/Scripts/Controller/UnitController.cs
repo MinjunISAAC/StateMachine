@@ -20,8 +20,8 @@ namespace InGame.ForUnit.Manage
         [Header("Joy Pad")]
         [SerializeField] private ControlView _controlView = null;
 
-        [Space(1.5f)] [Header("Unit")] 
-        [SerializeField] private Unit        _targetUnit  = null;
+        [Space(1.5f)][Header("Unit")]
+        [SerializeField] private Unit _targetUnit = null;
 
         // --------------------------------------------------
         // Properties
@@ -29,19 +29,16 @@ namespace InGame.ForUnit.Manage
         public Unit TargetUnit => _targetUnit;
 
         // --------------------------------------------------
-        // Functions - Event
-        // --------------------------------------------------
-
-        // --------------------------------------------------
         // Functions - Nomal
         // --------------------------------------------------
         // ----- Public
-        public void OnInit() 
+        public void OnInit()
         {
-            _SetJoyPad();
+            _SetControlPad();
             _controlView.MovePad.OnChangeMoveStateEvent += (moveType) => { _ChangeUnitState(moveType); };
+            _controlView.SetOnClickTapPad(_SetOnClickPunchBtn, _SetOnClickJumpBtn);
         }
-        
+
         public void UsedJoyPad(bool isOn)
         {
             _controlView.gameObject.SetActive(isOn);
@@ -49,15 +46,25 @@ namespace InGame.ForUnit.Manage
         }
 
         // ----- Private
-        private void _SetJoyPad()
+        private void _SetControlPad()
         {
             if (_targetUnit == null)
             {
-                Debug.LogError($"[UnitController._SetJoyPad] Target Unit이 할당되지 않았습니다.");
+                Debug.LogError($"[UnitController._SetControlPad] Target Unit이 할당되지 않았습니다.");
                 return;
             }
 
             _controlView.SetToTargetUnit(_targetUnit);
+        }
+
+        private void _SetOnClickPunchBtn()
+        {
+            Debug.Log($"Punch");
+        }
+        
+        private void _SetOnClickJumpBtn()
+        {
+            Debug.Log($"Jump");
         }
 
         private void _ChangeUnitState(MovePad.EMoveType moveType)

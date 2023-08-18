@@ -979,7 +979,7 @@ GameObject:
   - component: {fileID: 824139943}
   - component: {fileID: 824139944}
   m_Layer: 5
-  m_Name: TapPad
+  m_Name: ActivePad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1019,6 +1019,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be1b629c7d7e704f8974407f4809cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _BTN_Punch: {fileID: 1833764361}
+  _BTN_Jump: {fileID: 1158587150}
 --- !u!1 &959842995
 GameObject:
   m_ObjectHideFlags: 0
@@ -1439,7 +1441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movePad: {fileID: 770704687}
-  _tapPad: {fileID: 824139944}
+  _activePad: {fileID: 824139944}
 --- !u!1 &1535148490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,7 +1520,7 @@ GameObject:
   - component: {fileID: 1833764362}
   - component: {fileID: 1833764361}
   m_Layer: 5
-  m_Name: BTN_Hit
+  m_Name: BTN_Punch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

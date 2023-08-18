@@ -1,6 +1,5 @@
 // ----- C#
-using System.Collections;
-using System.Collections.Generic;
+using System;
 
 // ----- Unity
 using UnityEngine;
@@ -16,8 +15,13 @@ namespace InGame.ForUI.Control
         // --------------------------------------------------
         // Components
         // --------------------------------------------------
-        [SerializeField] private MovePad _movePad = null;
-        [SerializeField] private TapPad  _tapPad  = null;
+        [SerializeField] private MovePad    _movePad   = null;
+        [SerializeField] private ActionPad  _activePad = null;
+
+        // --------------------------------------------------
+        // Variables
+        // --------------------------------------------------
+        private Unit _targetUnit = null;
 
         // --------------------------------------------------
         // Properties
@@ -29,11 +33,21 @@ namespace InGame.ForUI.Control
         // --------------------------------------------------
         public void VisiableControlPad(bool isShow)
         {
-            _movePad.gameObject.SetActive(isShow);
-            _tapPad. gameObject.SetActive(isShow);
+            _movePad.  gameObject.SetActive(isShow);
+            _activePad.gameObject.SetActive(isShow);
         }
 
-        public void SetToTargetUnit(Unit targetUnit) => _movePad.SetToTargetUnit(targetUnit);
-        public void UsedJoyStickEvent(bool isOn) => _movePad.UsedJoyStickEvent(isOn);
+        public void SetOnClickTapPad(Action punchOnClick, Action jumpOnClick) => _activePad.SetOnClickBtn(punchOnClick, jumpOnClick);
+        public void UsedJoyStickEvent(bool isOn)                              => _movePad.UsedJoyStickEvent(isOn);
+        public void SetToTargetUnit(Unit targetUnit) 
+        {
+            if (_targetUnit != null)
+                return;
+
+            _targetUnit = targetUnit;
+            
+            _movePad.  SetToTargetUnit(_targetUnit);
+            _activePad.SetToTargetUnit(_targetUnit);
+        }
     }
 }
