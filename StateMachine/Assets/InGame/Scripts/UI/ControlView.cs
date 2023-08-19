@@ -37,7 +37,7 @@ namespace InGame.ForUI.Control
             _activePad.gameObject.SetActive(isShow);
         }
 
-        public void SetOnClickTapPad(Action punchOnClick, Action jumpOnClick) => _activePad.SetOnClickBtn(punchOnClick, jumpOnClick);
+        public void SetOnClickTapPad(Action leftPunchOnClick, Action rightPunchOnClick) => _activePad.SetOnClickBtn(leftPunchOnClick, rightPunchOnClick);
         public void UsedJoyStickEvent(bool isOn)                              => _movePad.UsedJoyStickEvent(isOn);
         public void SetToTargetUnit(Unit targetUnit) 
         {

@@ -13,12 +13,19 @@ namespace InGame.ForUnit
         // --------------------------------------------------
         // Unit State Enum
         // --------------------------------------------------
-        public enum EUnitState
+        public enum EMoveType
         {
             Unknown    = 0,
             Idle_Empty = 1,
             Walk_Empty = 2,
             Run_Empty  = 3,
+        }
+
+        public enum ETapType
+        {
+            Unknown     = 0,
+            Left_Punch  = 1,
+            Right_Punch = 2,
         }
 
         // --------------------------------------------------
@@ -34,7 +41,7 @@ namespace InGame.ForUnit
         // Variables
         // --------------------------------------------------
         // ----- Private
-        private EUnitState _unitState       = EUnitState.Unknown;
+        private EMoveType _unitState       = EMoveType.Unknown;
 
         private Coroutine  _co_CurrentState = null;
 
@@ -42,7 +49,7 @@ namespace InGame.ForUnit
         // Properties
         // --------------------------------------------------
         public Rigidbody  UnitRigidBody { get => _rigidBody; }
-        public EUnitState UnitState     { get => _unitState; }
+        public EMoveType UnitState     { get => _unitState; }
 
         // --------------------------------------------------
         // Functions - Nomal
@@ -53,14 +60,28 @@ namespace InGame.ForUnit
         
         }
 
-        public void ChangeToUnitState(EUnitState unitState, float duration = 0.0f, Action doneCallBack = null) => _ChangeToUnitState(unitState, duration, doneCallBack);
+        public void ChangeToUnitState(EMoveType unitState, float duration = 0.0f, Action doneCallBack = null) => _ChangeToUnitState(unitState, duration, doneCallBack);
+
+        public void ChangeTapInput(ETapType tapType)
+        {
+            switch (tapType)
+            {
+                case ETapType.Left_Punch:
+                    _anim.SetTrigger("Left_Punch");
+                    break;
+
+                case ETapType.Right_Punch:
+                    _anim.SetTrigger("Right_Punch");
+                    break;
+            }
+        }
 
         // ---- State 
-        private void _ChangeToUnitState(EUnitState unitState, float duration = 0.0f, Action doneCallBack = null)
+        private void _ChangeToUnitState(EMoveType unitState, float duration = 0.0f, Action doneCallBack = null)
         {
-            if (!Enum.IsDefined(typeof(EUnitState), unitState))
+            if (!Enum.IsDefined(typeof(EMoveType), unitState))
             {
-                Debug.LogError($"[Unit._ChangeToUnitState] {Enum.GetName(typeof(EUnitState), unitState)}은 정의되어있지 않은 Enum 값입니다.");
+                Debug.LogError($"[Unit._ChangeToUnitState] {Enum.GetName(typeof(EMoveType), unitState)}은 정의되어있지 않은 Enum 값입니다.");
                 return;
             }
 
@@ -74,9 +95,9 @@ namespace InGame.ForUnit
 
             switch (_unitState)
             {
-                case EUnitState.Idle_Empty: _State_IdleEmpty(); break;
-                case EUnitState.Walk_Empty: _State_WalkEmpty(); break;
-                case EUnitState.Run_Empty:  _State_RunEmpty();  break;
+                case EMoveType.Idle_Empty: _State_IdleEmpty(); break;
+                case EMoveType.Walk_Empty: _State_WalkEmpty(); break;
+                case EMoveType.Run_Empty:  _State_RunEmpty();  break;
             }
         }
 
@@ -102,7 +123,7 @@ namespace InGame.ForUnit
         {
             _anim.SetTrigger($"Empty_Idle");
 
-            while (_unitState == EUnitState.Idle_Empty)
+            while (_unitState == EMoveType.Idle_Empty)
             {
                 yield return null;
             }
@@ -112,7 +133,7 @@ namespace InGame.ForUnit
         {
             _anim.SetTrigger($"Empty_Walk");
 
-            while (_unitState == EUnitState.Walk_Empty)
+            while (_unitState == EMoveType.Walk_Empty)
             {
                 yield return null;
             }
@@ -120,7 +141,7 @@ namespace InGame.ForUnit
         private IEnumerator _Co_RunEmpty()
         {
             _anim.SetTrigger($"Empty_Run");
-            while (_unitState == EUnitState.Run_Empty)
+            while (_unitState == EMoveType.Run_Empty)
             {
                 yield return null;
             }

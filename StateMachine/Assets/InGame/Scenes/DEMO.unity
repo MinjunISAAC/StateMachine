@@ -1019,8 +1019,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be1b629c7d7e704f8974407f4809cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _BTN_Punch: {fileID: 1833764361}
-  _BTN_Jump: {fileID: 1158587150}
+  _BTN_LeftPunch: {fileID: 1833764361}
+  _BTN_RightPunch: {fileID: 1158587150}
 --- !u!1 &959842995
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,7 +1235,7 @@ GameObject:
   - component: {fileID: 1158587151}
   - component: {fileID: 1158587150}
   m_Layer: 5
-  m_Name: BTN_Jump
+  m_Name: BTN_RightPunch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1520,7 +1520,7 @@ GameObject:
   - component: {fileID: 1833764362}
   - component: {fileID: 1833764361}
   m_Layer: 5
-  m_Name: BTN_Punch
+  m_Name: BTN_LeftPunch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

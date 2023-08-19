@@ -36,7 +36,7 @@ namespace InGame.ForUnit.Manage
         {
             _SetControlPad();
             _controlView.MovePad.OnChangeMoveStateEvent += (moveType) => { _ChangeUnitState(moveType); };
-            _controlView.SetOnClickTapPad(_SetOnClickPunchBtn, _SetOnClickJumpBtn);
+            _controlView.SetOnClickTapPad(_SetOnClickLeftPunchBtn, _SetOnClickRightPunchBtn);
         }
 
         public void UsedJoyPad(bool isOn)
@@ -57,14 +57,14 @@ namespace InGame.ForUnit.Manage
             _controlView.SetToTargetUnit(_targetUnit);
         }
 
-        private void _SetOnClickPunchBtn()
+        private void _SetOnClickLeftPunchBtn()
         {
-            Debug.Log($"Punch");
+            _targetUnit.ChangeTapInput(Unit.ETapType.Left_Punch);
         }
         
-        private void _SetOnClickJumpBtn()
+        private void _SetOnClickRightPunchBtn()
         {
-            Debug.Log($"Jump");
+            _targetUnit.ChangeTapInput(Unit.ETapType.Right_Punch);
         }
 
         private void _ChangeUnitState(MovePad.EMoveType moveType)
@@ -72,15 +72,15 @@ namespace InGame.ForUnit.Manage
             switch (moveType)
             {
                 case MovePad.EMoveType.Idle:
-                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Idle_Empty);
+                    _targetUnit.ChangeToUnitState(Unit.EMoveType.Idle_Empty);
                     break;
                     
                 case MovePad.EMoveType.Walk:
-                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Walk_Empty);
+                    _targetUnit.ChangeToUnitState(Unit.EMoveType.Walk_Empty);
                     break;
 
                 case MovePad.EMoveType.Run:
-                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Run_Empty);
+                    _targetUnit.ChangeToUnitState(Unit.EMoveType.Run_Empty);
                     break;
             }
         }

@@ -17,16 +17,16 @@ public class ActionPad : MonoBehaviour
     // --------------------------------------------------
     public enum EActionType
     {
-        Unknown = 0,
-        Punch   = 1,
-        Jump    = 2,
+        Unknown    = 0,
+        LeftPunch  = 1,
+        RightPunch = 2,
     }
 
     // --------------------------------------------------
     // Components
     // --------------------------------------------------
-    [SerializeField] private Button _BTN_Punch = null;
-    [SerializeField] private Button _BTN_Jump  = null;
+    [SerializeField] private Button _BTN_LeftPunch  = null;
+    [SerializeField] private Button _BTN_RightPunch = null;
 
     // --------------------------------------------------
     // Variables
@@ -44,9 +44,9 @@ public class ActionPad : MonoBehaviour
         _targetUnit = targetUnit;
     }
 
-    public void SetOnClickBtn(Action punchOnClick, Action jumpOnClick)
+    public void SetOnClickBtn(Action leftPunchOnClick, Action rightPunchOnClick)
     {
-        _BTN_Punch.onClick.AddListener(() => { punchOnClick?.Invoke(); });
-        _BTN_Jump. onClick.AddListener(() => { jumpOnClick?.Invoke();  });
+        _BTN_LeftPunch. onClick.AddListener(() => { leftPunchOnClick?.Invoke();  });
+        _BTN_RightPunch.onClick.AddListener(() => { rightPunchOnClick?.Invoke(); });
     }
 }
