@@ -1,11 +1,4 @@
-# StateMachine
-
-**[StateMachine Repository]에는 2가지의 [StateMachine]이 구현되어있습니다.**
-
-- StateMachine Version 1.0.0
-- StateMachine Version 2.0.0
-
-## StateMachine Version 1
+# StateMachine Version 1.0
 
 ### 설계 구조
 ![StateMachine_Version1](./ImageGroup/StateMachinev1.jpg)
