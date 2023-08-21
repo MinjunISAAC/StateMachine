@@ -1,7 +1,8 @@
 # StateMachine Version 2.0
 
 ### 설계 구조
-![StateMachine_Version1](./ImageGroup/StateMachinev1.jpg)
+![StateMachine_Version1_0](./ImageGroup/StateMachine_v2_simpleState.jpg) ![StateMachine_Version1_0](./ImageGroup/StateMachine_v2_simpleStatemachine.jpg)
+![StateMachine_Version1_0](./ImageGroup/StateMachine_v2_simpleState_.jpg)
 
 ### 설계 의도
 
@@ -16,74 +17,7 @@
 
 <pre>
   <code>
-    // --------------------------------------------------
-    // Unit State Enum
-    // --------------------------------------------------
-    public enum EUnitState
-    {
-        Unknown = 0,
-        State_A = 1,
-        State_B = 2,
-        State_C = 3,
-    }
+    # SimpleState
     
-    // --------------------------------------------------
-    // Functions - Nomal
-    // --------------------------------------------------
-    // ----- Public
-    public void ChangeToUnitState(EUnitState unitState, Action doneCallBack = null) 
-        => _ChangeToUnitState(unitState, doneCallBack);
-    
-    // ----- Private
-    private void _ChangeToUnitState(EUnitState unitState, Action doneCallBack)
-    {
-        if (!Enum.IsDefined(typeof(EUnitState), unitState))
-        {
-            Debug.LogError($"<color=#FF0000>[Unit._ChangeToUnitState] {Enum.GetName(typeof(EUnitState), unitState)}은 정의되어있지 않은 Enum 값입니다.</color>");
-            return;
-        }
-    
-        if (_unitState == unitState)
-            return;
-    
-        _unitState = unitState;
-    
-        if (_co_CurrentState != null)
-            StopCoroutine(_co_CurrentState);
-    
-        switch (_unitState)
-        {
-            case EStateType.State_A: _State_State_A(); break;
-            case EStateType.State_B: _State_State_B(); break;
-            case EStateType.State_C: _State_State_C(); break;
-        }
-    }
-    
-    private void _State_State_A(Action doneCallBack) 
-        => _co_CurrentState = StartCoroutine(_Co_State_A(doneCallBack));
-        
-    private void _State_State_B(Action doneCallBack) 
-        => _co_CurrentState = StartCoroutine(_Co_State_B(doneCallBack));
-    
-    private void _State_State_C(Action doneCallBack) 
-        => _co_CurrentState = StartCoroutine(_Co_State_C(doneCallBack));
-    
-    // --------------------------------------------------
-    // Functions - State Coroutine
-    // --------------------------------------------------
-    private IEnumerator _Co_State_A(Action doneCallBack)
-    {
-        // [TODO] 상태(State)에 따른 초기화 
-    
-        while (_unitState == EMoveType.Idle_Empty)
-        {
-            // [TODO] 상태(State) 반복 기능
-            
-            yield return null;
-        }
-    
-        doneCallBack?.Invoke(); // [TODO] 정상적인 상태 종료 시, 콜백함수 실행
-    }  
-    ... // 다른 상태(State) 함수도 동일하게 작동
   </code>
 </pre>
