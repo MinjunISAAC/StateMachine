@@ -2,8 +2,8 @@
 
 **[StateMachine Repository]에는 2가지의 [StateMachine]이 구현되어있습니다.**
 
-- StateMachine Version 1.0.0
-- StateMachine Version 2.0.0
+- StateMachine Version 1.0
+- StateMachine Version 2.0
 
 ## StateMachine Version 1.0
  
@@ -16,7 +16,7 @@
 - 여러개의 상태(State)가 동작하지 않도록 다른 상태 기능 무력화.
 
 ### 링크
-[StateMachine_Version1.0](./StateMachine_Version1.0.0.md)
+[StateMachine_Version1.0](./StateMachine_Version1.0.md)
 
 ## StateMachine Version 2.0
  
@@ -30,4 +30,4 @@
 - 각 상태(State)가 클래스로 관리되기 때문에 상태(State)가 많아질 수록 Mono의 상속(Coroutine 사용 등)이 많아질 수 있으므로, 관리 할 수 있는 Coroutine 실행자를 1개만 사용. 
 
 ### 링크
-[StateMachine_Version1.0](./StateMachine_Version1.0.0.md)
+[StateMachine_Version1.0](./StateMachine_Version2.0.md)
