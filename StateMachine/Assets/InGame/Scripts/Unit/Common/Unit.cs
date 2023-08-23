@@ -43,7 +43,7 @@ namespace InGame.ForUnit
         // ----- Private
         private EMoveType _unitState       = EMoveType.Unknown;
 
-        private Coroutine  _co_CurrentState = null;
+        private Coroutine _co_CurrentState = null;
 
         // --------------------------------------------------
         // Properties
