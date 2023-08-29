@@ -7,19 +7,19 @@ using UnityEngine;
 // ----- User Defined
 using Utility.SimpleFSM;
 
-public class SimpleStateMachine<EStateType>
+public class SimpleStateMachine<TKey>
 {
     // --------------------------------------------------
     // Variables
     // --------------------------------------------------
-    protected MonoBehaviour                                   _coroutineExecutor = null;
-    protected Dictionary<EStateType, SimpleState<EStateType>> _stateSet          = null;
-    protected SimpleState<EStateType>                         _currentState      = null;
+    protected MonoBehaviour                       _coroutineExecutor = null;
+    protected Dictionary<TKey, SimpleState<TKey>> _stateSet          = null;
+    protected SimpleState<TKey>                   _currentState      = null;
 
     // --------------------------------------------------
     // Properties
     // --------------------------------------------------
-    public virtual EStateType CurrentState
+    public virtual TKey CurrentState
     {
         get
         {
@@ -31,9 +31,9 @@ public class SimpleStateMachine<EStateType>
     // Functions - Nomal
     // --------------------------------------------------
     // ----- Public
-    public virtual void OnInit(Dictionary<EStateType, SimpleState<EStateType>> stateSet,
-                               MonoBehaviour                                   coroutineExecutor,
-                               object                                          param)
+    public virtual void OnInit(Dictionary<TKey, SimpleState<TKey>> stateSet,
+                               MonoBehaviour                       coroutineExecutor,
+                               object                              param)
     {
         OnRelease();
 
@@ -88,7 +88,7 @@ public class SimpleStateMachine<EStateType>
         }
     }
 
-    public virtual void ChangeState(EStateType targetStateType, object startParam)
+    public virtual void ChangeState(TKey targetStateType, object startParam)
     {
         if (null == _stateSet)
         {
@@ -119,7 +119,7 @@ public class SimpleStateMachine<EStateType>
         else
         {
             _currentState = state;
-            _currentState.Start(default(EStateType), startParam);
+            _currentState.Start(default(TKey), startParam);
         }
     }
 }
